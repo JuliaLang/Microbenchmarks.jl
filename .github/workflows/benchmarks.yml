@@ -38,18 +38,9 @@ jobs:
 #         go-version: ['1.24.5']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           persist-credentials: false
-      - name: "Set up Julia"
-        uses: julia-actions/setup-julia@v2
-        with:
-          ref: v${{ matrix.julia-version }}
-      - name: "Cache Julia"
-        id: cache-julia
-        uses: julia-actions/cache@v2
-        with:
-          key: ${{ runner.os }}-v${{ matrix.julia-version }}
       - name: "Set up dSFMT"
         run: |
           mkdir -p dSFMT
@@ -62,6 +53,10 @@ jobs:
       - name: "Set up OpenBLAS"
         run: |
           sudo apt-get install -y libopenblas-dev
+      - name: "Set up Julia"
+        uses: julia-actions/setup-julia@v2
+        with:
+          ref: v${{ matrix.julia-version }}
       - name: "Set up Python"
         uses: actions/setup-python@v5
         with:
