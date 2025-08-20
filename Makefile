@@ -48,18 +48,10 @@ bin/fperf%: perf.f90
 	mkdir -p mods/$@ #Modules for each binary go in separate directories
 	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas -lm -lpthread
 
-benchmarks/c.csv: \
-	benchmarks/c0.csv \
-	benchmarks/c1.csv \
-	benchmarks/c2.csv \
-	benchmarks/c3.csv
+benchmarks/c.csv: benchmarks/c2.csv
 	cat $^ > $@
 
-benchmarks/fortran.csv: \
-	benchmarks/fortran0.csv \
-	benchmarks/fortran1.csv \
-	benchmarks/fortran2.csv \
-	benchmarks/fortran3.csv
+benchmarks/fortran.csv:	benchmarks/fortran2.csv
 	cat $^ > $@
 
 benchmarks/c%.csv: bin/perf%
