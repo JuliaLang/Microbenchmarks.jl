@@ -147,8 +147,8 @@ if __name__=="__main__":
 
     tmin = float('inf')
     for i in range(mintrials):
-        lst = [ random.random() for i in range(1,5000) ]
         t = time.time()
+        lst = rand(5000)
         qsort_kernel(lst, 0, len(lst)-1)
         t = time.time()-t
         if t < tmin: tmin = t
