@@ -48,18 +48,10 @@ bin/fperf%: perf.f90
 	mkdir -p mods/$@ #Modules for each binary go in separate directories
 	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas -lm -lpthread
 
-benchmarks/c.csv: \
-	benchmarks/c0.csv \
-	benchmarks/c1.csv \
-	benchmarks/c2.csv \
-	benchmarks/c3.csv
+benchmarks/c.csv: benchmarks/c2.csv
 	cat $^ > $@
 
-benchmarks/fortran.csv: \
-	benchmarks/fortran0.csv \
-	benchmarks/fortran1.csv \
-	benchmarks/fortran2.csv \
-	benchmarks/fortran3.csv
+benchmarks/fortran.csv:	benchmarks/fortran2.csv
 	cat $^ > $@
 
 benchmarks/c%.csv: bin/perf%
@@ -117,10 +109,6 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 LANGUAGES = c fortran java javascript julia lua mathematica matlab octave python r rust
 GH_ACTION_LANGUAGES = c fortran java javascript julia lua python r rust
 
-# These were formerly listed in LANGUAGES, but I can't get them to run
-# 2017-09-27 johnfgibson
-#	scala
-
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
 
@@ -148,5 +136,3 @@ clean:
 	@rm -rf bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
 
 .PHONY: all perf clean
-
-.PRECIOUS: bin/perf0 bin/perf1 bin/perf2 bin/perf3

@@ -83,7 +83,7 @@ jobs:
           r-version: ${{ matrix.r-version }}
       - name: "Set up LuaJit"
         run: |
-          cd ~/work/Microbenchmarks.jl/Microbenchmarks/lua
+          cd ~/work/Microbenchmarks.jl/Microbenchmarks.jl/lua
           ./lua-install.sh
 #       - name: "Set up Go"
 #         uses: actions/setup-go@v5
