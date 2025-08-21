@@ -107,8 +107,7 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
 LANGUAGES = c fortran java javascript julia lua mathematica matlab octave python r rust
-#GH_ACTION_LANGUAGES = c fortran java javascript julia lua python r rust
-GH_ACTION_LANGUAGES = c julia
+GH_ACTION_LANGUAGES = c fortran java javascript julia lua python r rust
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
