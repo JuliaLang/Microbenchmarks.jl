@@ -94,3 +94,11 @@ jobs:
           make gh_action_benchmarks.html
       - name: "Print benchmark data"
         run: cat gh_action_benchmarks.csv
+      - name: "Build site"
+        run: |
+          julia --color=yes --project=docs -e 'using Pkg; Pkg.instantiate()'
+          julia --color=yes --project=docs --compiled-modules=existing docs/make.jl
+      - name: "Deploy site"
+        uses: julia-actions/julia-docdeploy@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

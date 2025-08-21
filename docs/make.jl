@@ -1,8 +1,6 @@
-module Microbenchmarks
+using Documenter, DataFrames, CSV, StatsBase, Gadfly
 
-using DataFrames, CSV, StatsBase
-
-function read_bench(benchfile::String)
+function makeplot(benchfile::String)
     # Load benchmark data from file
     benchmarks = CSV.read(benchfile, DataFrame; header=["language", "benchmark", "time"])
 
@@ -45,31 +43,40 @@ function read_bench(benchfile::String)
     sort!(benchmarks, [:priority, :geomean]);
     sort!(langmean,   [:priority, :geomean]);
 
-    return benchmarks
+    p = plot(benchmarks,
+             x = :language,
+             y = :normtime,
+             color = :benchmark,
+             Scale.y_log10,
+             Guide.ylabel(nothing),
+             Guide.xlabel(nothing),
+             Coord.Cartesian(ymin=-0.5),
+             Theme(
+                 guide_title_position = :left,
+                 colorkey_swatch_shape = :circle,
+                 minor_label_font = "Georgia",
+                 major_label_font = "Georgia"
+             ),
+             )
+
+    golden = MathConstants.golden
+    draw(SVG("docs/src/benchmarks.svg", 10inch, 10inch/golden), p)
 end
 
-benchmarks = read_bench("benchmarks.csv")
+makeplot("benchmarks.csv")
 
-#=
-p = plot(benchmarks,
-         x = :language,
-         y = :normtime,
-         color = :benchmark,
-         Scale.y_log10,
-         Guide.ylabel(nothing),
-         Guide.xlabel(nothing),
-         Coord.Cartesian(ymin=-0.5),
-         Theme(
-             guide_title_position = :left,
-             colorkey_swatch_shape = :circle,
-             minor_label_font = "Georgia",
-             major_label_font = "Georgia"
-         ),
-         )
+makedocs(
+    format = Documenter.HTML(),
+    sitename = "Julia Microbenchmarks",
+    pages = [
+        "Microbenchmarks" => "index.md",
+    ],
+)
 
-golden = MathConstants.golden
-#draw(SVG(8inch,8inch/golden), p)
-draw(SVG("benchmarks.svg", 10inch, 10inch/golden), p)
-=#
-
-end #module
+deploydocs(
+    repo = "github.com/JuliaLang/Microbenchmarks.jl.git",
+    target = "build",
+    deps   = nothing,
+    make   = nothing,
+    push_preview = true,
+)
