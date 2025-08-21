@@ -63,7 +63,7 @@ function makeplot(benchfile::String)
     draw(SVG("docs/src/benchmarks.svg", 10inch, 10inch/golden), p)
 end
 
-makeplot("benchmarks.csv")
+makeplot("gh_action_benchmarks.csv")
 
 makedocs(
     format = Documenter.HTML(),
