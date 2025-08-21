@@ -6,6 +6,9 @@ It was formerly part of the Julia source tree.
 The results of these benchmarks are used to generate the performance graph on the
 [Julia benchmarks page](https://julialang.org/benchmarks).
 
+The benchmark [results](https://julialang.github.io/Microbenchmarks.jl/) are auto-generated 
+on Github Actions.
+
 ## Running benchmarks
 
 Install Julia with `juliaup`.
