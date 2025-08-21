@@ -15,7 +15,10 @@ concurrency:
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
 permissions:
-  contents: read
+  actions: write
+  contents: write
+  pull-requests: read
+  statuses: write
 
 jobs:
   test:
