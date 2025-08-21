@@ -1,13 +1,14 @@
 [deps]
-Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Gadfly = "c91e804a-d5a3-530f-b6f0-dfbca275c004"
+Microbenchmarks = "d04c57ce-49d5-44bb-b39e-e10e2075fbb8"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 
 [compat]
-Documenter = "1"
 CSV = "0.10.15"
 DataFrames = "1.7.0"
+Documenter = "1"
 Gadfly = "1.4.1"
 StatsBase = "0.34.5"
