@@ -109,10 +109,6 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 LANGUAGES = c fortran java javascript julia lua mathematica matlab octave python r rust
 GH_ACTION_LANGUAGES = c fortran java javascript julia lua python r rust
 
-# These were formerly listed in LANGUAGES, but I can't get them to run
-# 2017-09-27 johnfgibson
-#	scala
-
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
 
@@ -140,5 +136,3 @@ clean:
 	@rm -rf bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
 
 .PHONY: all perf clean
-
-.PRECIOUS: bin/perf0 bin/perf1 bin/perf2 bin/perf3
