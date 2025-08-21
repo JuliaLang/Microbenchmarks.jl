@@ -70,6 +70,7 @@ makedocs(
     sitename = "Julia Microbenchmarks",
     pages = [
         "Microbenchmarks" => "index.md",
+        "Notes" => "notes.md",
     ],
 )
 
