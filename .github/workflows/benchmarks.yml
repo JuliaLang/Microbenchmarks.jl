@@ -15,7 +15,10 @@ concurrency:
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
 permissions:
-  contents: read
+  actions: write
+  contents: write
+  pull-requests: read
+  statuses: write
 
 jobs:
   test:
@@ -56,7 +59,7 @@ jobs:
       - name: "Set up Julia"
         uses: julia-actions/setup-julia@v2
         with:
-          ref: v${{ matrix.julia-version }}
+          version: v${{ matrix.julia-version }}
       - name: "Set up Python"
         uses: actions/setup-python@v5
         with:
@@ -94,3 +97,12 @@ jobs:
           make gh_action_benchmarks.html
       - name: "Print benchmark data"
         run: cat gh_action_benchmarks.csv
+      - uses: julia-actions/cache@v2
+      - name: "Build site"
+        run: |
+          julia --color=yes --project=docs -e 'using Pkg; Pkg.instantiate()'
+          julia --color=yes --project=docs --compiled-modules=existing docs/make.jl
+      - name: "Deploy site"
+        uses: julia-actions/julia-docdeploy@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

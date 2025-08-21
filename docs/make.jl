@@ -1,8 +1,6 @@
-module Microbenchmarks
+using Documenter, DataFrames, CSV, StatsBase, Gadfly
 
-using DataFrames, CSV, StatsBase
-
-function read_bench(benchfile::String)
+function makeplot(benchfile::String)
     # Load benchmark data from file
     benchmarks = CSV.read(benchfile, DataFrame; header=["language", "benchmark", "time"])
 
@@ -45,7 +43,41 @@ function read_bench(benchfile::String)
     sort!(benchmarks, [:priority, :geomean]);
     sort!(langmean,   [:priority, :geomean]);
 
-    return benchmarks
+    p = plot(benchmarks,
+             x = :language,
+             y = :normtime,
+             color = :benchmark,
+             Scale.y_log10,
+             Guide.ylabel(nothing),
+             Guide.xlabel(nothing),
+             Coord.Cartesian(ymin=-0.5),
+             Theme(
+                 guide_title_position = :left,
+                 colorkey_swatch_shape = :circle,
+                 minor_label_font = "Georgia",
+                 major_label_font = "Georgia"
+             ),
+             )
+
+    golden = MathConstants.golden
+    draw(SVG("docs/src/benchmarks.svg", 10inch, 10inch/golden), p)
 end
 
-end #module
+makeplot("gh_action_benchmarks.csv")
+
+makedocs(
+    format = Documenter.HTML(),
+    sitename = "Julia Microbenchmarks",
+    pages = [
+        "Microbenchmarks" => "index.md",
+        "Notes" => "notes.md",
+    ],
+)
+
+deploydocs(
+    repo = "github.com/JuliaLang/Microbenchmarks.jl.git",
+    target = "build",
+    deps   = nothing,
+    make   = nothing,
+    push_preview = true,
+)
